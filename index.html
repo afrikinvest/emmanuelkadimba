@@ -3,189 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Investisseur | TECK COMPANY</title>
-    <link href="https://cloudflare.com" rel="stylesheet">
+    <title>TECK COMPANY - VIP ACCESS</title>
+    <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         :root {
-            --gold: #f0b90b; --dark-bg: #0b0e11; --card-bg: #1e2329;
-            --primary: #0052ff; --text-gray: #848e9c; --success: #0ecb81;
+            --gold: #D4AF37;
+            --dark: #0a0a0a;
+            --card: #1a1a1a;
+            --gray: #a0a0a0;
+            --success: #00ff88;
         }
 
         body {
-            margin: 0; font-family: 'Inter', -apple-system, sans-serif;
-            background-color: var(--dark-bg); color: white;
-            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            background: var(--dark);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* --- ÉCRAN D'ACCÈS --- */
-        #auth-screen {
-            width: 90%; max-width: 420px; text-align: center;
-            background: var(--card-bg); padding: 40px 30px; border-radius: 28px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);
+        /* NOTIFICATIONS */
+        #notif-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            color: black;
+            padding: 12px 25px;
+            border-radius: 50px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            animation: fadeIn 0.5s ease;
         }
 
-        .avatar-circle {
-            width: 80px; height: 80px; background: rgba(240, 185, 11, 0.1);
-            border: 2px solid var(--gold); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 20px; font-size: 2rem; color: var(--gold);
+        /* LOGIN SCREEN */
+        #login-screen {
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
         }
 
-        .welcome-text h1 { font-size: 1.5rem; margin: 0; color: white; }
-        .welcome-text p { color: var(--text-gray); font-size: 0.9rem; margin-top: 5px; }
-
-        .pass-group { margin-top: 30px; position: relative; }
-        input[type="text"] {
-            width: 100%; background: #0b0e11; border: 1px solid #333;
-            padding: 18px; border-radius: 15px; color: var(--gold);
-            font-size: 1.1rem; text-align: center; outline: none;
-            box-sizing: border-box; transition: 0.3s;
-        }
-        input:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(240,185,11,0.2); }
-
-        .btn-unlock {
-            width: 100%; background: var(--gold); color: #000; border: none;
-            padding: 18px; border-radius: 15px; font-weight: 800; font-size: 1rem;
-            margin-top: 20px; cursor: pointer; transition: 0.3s;
-        }
-        .btn-unlock:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(240,185,11,0.3); }
-
-        /* --- DASHBOARD --- */
-        #main-dashboard {
-            display: none; width: 95%; max-width: 500px; padding: 20px 0;
+        .glass-card {
+            background: var(--card);
+            padding: 40px 30px;
+            border-radius: 25px;
+            border: 1px solid #333;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
         }
 
-        .header-dash { text-align: center; margin-bottom: 25px; }
-        .badge-id { background: var(--primary); padding: 5px 15px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
-
-        .alert-action {
-            background: linear-gradient(90deg, rgba(240,185,11,0.15) 0%, rgba(240,185,11,0.05) 100%);
-            border-left: 4px solid var(--gold); padding: 20px; border-radius: 12px;
-            margin-bottom: 25px; display: flex; align-items: center; gap: 15px;
+        .input-gold {
+            width: 100%;
+            background: #222;
+            border: 2px solid #333;
+            padding: 15px;
+            border-radius: 12px;
+            color: var(--gold);
+            text-align: center;
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            margin: 25px 0;
+            outline: none;
         }
 
-        .client-card {
-            background: var(--card-bg); border-radius: 24px; padding: 25px;
-            border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden;
+        /* DASHBOARD (MASQUÉ PAR DÉFAUT) */
+        #dashboard {
+            display: none;
+            width: 100%;
+            max-width: 500px;
+            padding-bottom: 80px;
         }
 
-        .section-title { color: var(--text-gray); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: block;}
-
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
-        .info-item label { display: block; color: var(--text-gray); font-size: 0.7rem; margin-bottom: 4px; }
-        .info-item span { font-weight: 600; font-size: 0.95rem; }
-
-        .investment-box {
-            background: #161a1e; border-radius: 20px; padding: 20px;
-            border: 1px solid rgba(14, 203, 129, 0.2); text-align: center;
+        .top-bar {
+            background: #111;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
         }
-        .amount-main { font-size: 2rem; font-weight: 900; color: white; margin: 10px 0; }
-        .gain-label { color: var(--success); font-size: 0.8rem; font-weight: bold; }
-        .gain-value { font-size: 1.4rem; color: var(--success); font-weight: 800; }
 
-        .footer-action {
-            margin-top: 25px; text-align: center;
+        .main-card {
+            background: #1a1a1a;
+            margin: 20px;
+            padding: 25px;
+            border-radius: 20px;
+            border-left: 5px solid var(--gold);
         }
-        .btn-deposit {
-            display: block; width: 100%; background: #25D366; color: white;
-            text-decoration: none; padding: 20px; border-radius: 18px;
-            font-weight: 800; font-size: 1.1rem; box-sizing: border-box;
-            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2);
+
+        .info-box { margin: 20px 0; border-top: 1px solid #333; padding-top: 15px; }
+        .info-line { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; }
+
+        .profit-zone {
+            background: #000;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
         }
+
+        .profit-val { color: var(--success); font-size: 2rem; font-weight: 900; display: block; margin: 10px 0; }
+
+        .btn-action {
+            display: block;
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            color: white;
+            text-decoration: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .navbar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 500px;
+            background: #111;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid #333;
+        }
+
+        .nav-link { color: var(--gray); text-decoration: none; font-size: 0.75rem; text-align: center; }
+        .nav-link.active { color: var(--gold); }
+        .nav-link i { display: block; font-size: 1.2rem; margin-bottom: 5px; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <!-- ÉCRAN 1 : ACCÈS CLIENT -->
-    <div id="auth-screen">
-        <div class="avatar-circle"><i class="fas fa-user-tie"></i></div>
-        <div class="welcome-text">
-            <p>Ravi de vous revoir,</p>
-            <h1>M. Elias numbi</h1>
-        </div>
-
-        <div class="pass-group">
-            <input type="text" id="passCode" placeholder="Entrez votre mot de passe">
-            <button class="btn-unlock" onclick="unlock()">DÉVERROUILLER L'ACCÈS</button>
-            <p id="errMsg" style="color: #ff4d4d; font-size: 0.8rem; margin-top: 15px; display: none; font-weight: bold;">
-                <i class="fas fa-exclamation-triangle"></i> Mot de passe incorrect.
-            </p>
-        </div>
+    <div id="notif-box">
+        <i class="fas fa-check-circle" style="color:var(--success); font-size:1.4rem;"></i>
+        <span id="notif-txt"></span>
     </div>
 
-    <!-- ÉCRAN 2 : DASHBOARD -->
-    <div id="main-dashboard">
-        <div class="header-dash">
-            <span class="badge-id">ID CLIENT: TCO-93744</span>
-            <h2 style="margin-top: 10px;">Tableau de Bord Privé</h2>
+    <!-- ÉCRAN D'ACCÈS -->
+    <section id="login-screen">
+        <div class="glass-card">
+            <div style="background:var(--gold); width:70px; height:70px; border-radius:50%; margin:0 auto 20px; display:flex; align-items:center; justify-content:center;">
+                <i class="fas fa-user-lock fa-2x" style="color:black;"></i>
+            </div>
+            <h2 style="margin:0; letter-spacing:1px;">TECK COMPANY</h2>
+            <p style="color:var(--gray); font-size:0.85rem; margin-top:5px;">Compte : <strong>Naz Louis umba</strong></p>
+            <input type="password" id="passInput" class="input-gold" placeholder="••••••" maxlength="6">
+            <button onclick="access()" style="width:100%; background:var(--gold); border:none; padding:20px; border-radius:15px; font-weight:900; cursor:pointer; color:black;">OUVRIR MA SESSION VIP</button>
+        </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard">
+        <div class="top-bar">
+            <div style="font-weight:900; font-size:1.1rem; color:var(--gold);">TECK TRADING</div>
+            <div style="font-size:0.8rem;"><span style="color:var(--success)">●</span> SERVEUR RDC ACTIVE</div>
         </div>
 
-        <div class="alert-action">
-            <i class="fas fa-clock fa-spin" style="color: var(--gold);"></i>
-            <div>
-                <strong style="display: block; font-size: 0.9rem;">Action Requise</strong>
-                <span style="font-size: 0.8rem; opacity: 0.9;">Veuillez effectuer votre dépôt de 50$ pour activer le trading.</span>
-            </div>
-        </div>
-
-        <div class="client-card">
-            <span class="section-title">Informations de Compte</span>
-            <div class="info-grid">
-                <div class="info-item">
-                    <label>PAYS</label>
-                    <span>RDC 🇨🇩</span>
-                </div>
-                <div class="info-item">
-                    <label>WHATSAPP</label>
-                    <span>0999837344</span>
-                </div>
-                <div class="info-item">
-                    <label>MODE DE PAIEMENT</label>
-                    <span>Mobile Money</span>
-                </div>
-                <div class="info-item">
-                    <label>N° RÉCEPTION GAIN</label>
-                    <span>0999837344</span>
-                </div>
+        <div id="home-view" class="container">
+            <div style="background:rgba(212, 175, 55, 0.1); padding:10px; text-align:center; font-size:0.8rem; color:var(--gold);">
+                <i class="fas fa-clock"></i> CYCLE DE TRADING : RETRAIT DISPONIBLE DANS 24H
             </div>
 
-            <span class="section-title">Plan d'Investissement Actif</span>
-            <div class="investment-box">
-                <div style="color: var(--text-gray); font-size: 0.8rem;">DÉPÔT ATTENDU</div>
-                <div class="amount-main">50.00 $</div>
-                
-                <div style="margin: 15px 0; border-top: 1px dashed #333;"></div>
-                
-                <div class="gain-label">PROFITS ESTIMÉS APRÈS 24H</div>
-                <div class="gain-value">+ 450.00 $</div>
-            </div>
+            <div class="main-card">
+                <div style="display:flex; justify-content:space-between;">
+                    <div>
+                        <span style="color:var(--gray); font-size:0.7rem;">ID TRANSACTION</span>
+                        <div style="font-weight:bold; font-size:1.1rem;">TCO-74930</div>
+                    </div>
+                </div>
 
-            <div class="footer-action">
-                <a href="https://wa.me" class="btn-deposit">
-                    <i class="fab fa-whatsapp"></i> ENVOYER MON BORDEREAU
+                <div class="info-box">
+                    <div class="info-line"><span>Client :</span> <strong>Naz Louis umba</strong></div>
+                    <div class="info-line"><span>Mode :</span> <strong>Airtel Money</strong></div>
+                    <div class="info-line"><span>N° Source :</span> <strong>+243981524546</strong></div>
+                </div>
+
+                <div class="profit-zone">
+                    <span style="color:var(--gray); font-size:0.8rem;">DÉPÔT REQUIS : 150 $</span>
+                    <span class="profit-val">+ 1 350.00 $</span>
+                    <span style="color:var(--success); font-size:0.75rem; font-weight:bold;">GAINS NETS ESTIMÉS</span>
+                </div>
+
+                <a href="#" onclick="contact()" class="btn-action">
+                    <i class="fab fa-whatsapp fa-lg"></i> ACTIVER MON GAIN
                 </a>
-                <p style="font-size: 0.7rem; color: var(--text-gray); margin-top: 15px;">
-                    <i class="fas fa-shield-alt"></i> Fonds sécurisés par TECK COMPANY
-                </p>
             </div>
         </div>
-    </div>
+
+        <nav class="navbar">
+            <a href="#" class="nav-link active"><i class="fas fa-home"></i>Accueil</a>
+            <a href="#" class="nav-link" onclick="contact()"><i class="fas fa-headset"></i>Support</a>
+        </nav>
+    </section>
 
     <script>
-        function unlock() {
-            const code = document.getElementById('passCode').value;
-            const correct = "Elias@12"; 
-            const auth = document.getElementById('auth-screen');
-            const dash = document.getElementById('main-dashboard');
-            const err = document.getElementById('errMsg');
+        const key = "290E36";
 
-            if(code === correct) {
-                auth.style.display = 'none';
-                dash.style.display = 'block';
+        function access() {
+            const input = document.getElementById('passInput').value;
+            if(input === key) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                document.body.style.display = 'block';
+                startLive();
             } else {
-                err.style.display = 'block';
+                alert("Code d'accès incorrect.");
             }
+        }
+
+        function startLive() {
+            const names = ["Prince M.", "Sarah L.", "Jean-Luc T.", "Merveille K."];
+            setInterval(() => {
+                const box = document.getElementById('notif-box');
+                const name = names[Math.floor(Math.random() * names.length)];
+                const gain = Math.floor(Math.random() * 2000) + 1000;
+                document.getElementById('notif-txt').innerHTML = `<b>${name} a reçu ${gain} $</b>`;
+                box.style.display = 'flex';
+                setTimeout(() => box.style.display = 'none', 4000);
+            }, 6000);
+        }
+
+        function contact() {
+            const num = "237689964053";
+            const msg = "Bonjour Service Client, l'identifiant TCO-74930 (Naz Louis umba) souhaite recharger 150$ pour activer son gain.";
+            window.location.href = `https://wa.me/237689964053?text=${encodeURIComponent(msg)}`;
         }
     </script>
 </body>
 </html>
+
