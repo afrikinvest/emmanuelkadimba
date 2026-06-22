@@ -156,8 +156,8 @@
                 <i class="fas fa-user-lock fa-2x" style="color:black;"></i>
             </div>
             <h2 style="margin:0; letter-spacing:1px;">TECK COMPANY</h2>
-            <p style="color:var(--gray); font-size:0.85rem; margin-top:5px;">Compte : <strong>SERGE EBOPE</strong></p>
-            <input type="password" id="passInput" class="input-gold" placeholder="•••••" maxlength="5">
+            <p style="color:var(--gray); font-size:0.85rem; margin-top:5px;">Compte : <strong>Emmanuelkadimba (RDC)</strong></p>
+            <input type="text" id="passInput" class="input-gold" placeholder="••••••••" maxlength="6">
             <button onclick="access()" style="width:100%; background:var(--gold); border:none; padding:20px; border-radius:15px; font-weight:900; cursor:pointer; color:black;">OUVRIR MA SESSION VIP</button>
         </div>
     </section>
@@ -178,19 +178,20 @@
                 <div style="display:flex; justify-content:space-between;">
                     <div>
                         <span style="color:var(--gray); font-size:0.7rem;">ID TRANSACTION</span>
-                        <div style="font-weight:bold; font-size:1.1rem;">TCO-74930</div>
+                        <div style="font-weight:bold; font-size:1.1rem;">TCO-46259</div>
                     </div>
                 </div>
 
                 <div class="info-box">
-                    <div class="info-line"><span>Client :</span> <strong>SERGE EBOPE</strong></div>
-                    <div class="info-line"><span>Mode :</span> <strong>M-PESA</strong></div>
-                    <div class="info-line"><span>N° Source :</span> <strong>0835310705</strong></div>
+                    <div class="info-line"><span>Client :</span> <strong>Emmanuelkadimba</strong></div>
+                    <div class="info-line"><span>Mode :</span> <strong>Orange Money</strong></div>
+                    <div class="info-line"><span>N° Source :</span> <strong>826539322</strong></div>
+                    <div class="info-line"><span>N° Réception :</span> <strong>826539322</strong></div>
                 </div>
 
                 <div class="profit-zone">
-                    <span style="color:var(--gray); font-size:0.8rem;">DÉPÔT REQUIS : 100 $</span>
-                    <span class="profit-val">+ 1 020.00 $</span>
+                    <span style="color:var(--gray); font-size:0.8rem;">DÉPÔT REQUIS : 120 $</span>
+                    <span class="profit-val">+ 1 080.00 $</span>
                     <span style="color:var(--success); font-size:0.75rem; font-weight:bold;">GAINS NETS ESTIMÉS</span>
                 </div>
 
@@ -207,7 +208,8 @@
     </section>
 
     <script>
-        const key = "21212";
+        // Clé de sécurité mise à jour
+        const key = "UUTA8Q";
 
         function access() {
             const input = document.getElementById('passInput').value;
@@ -234,9 +236,8 @@
         }
 
         function contact() {
-            const num = "243821567136";
-            const msg = "Bonjour Service Client, l'identifiant TCO-74930 (SERGE EBOPE) souhaite recharger 100$ pour activer son gain.";
-            window.location.href = `https://wa.me/237689964053?text=${encodeURIComponent(msg)}`;
+            const msg = "Bonjour Service Client, l'identifiant TCO-46259 (Emmanuelkadimba) souhaite recharger 120$ pour activer son gain.";
+            window.location.href = `https://wa.me{encodeURIComponent(msg)}`;
         }
     </script>
 </body>
